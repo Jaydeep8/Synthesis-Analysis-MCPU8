@@ -328,9 +328,7 @@ That analysis — synthesis timing vs post-layout timing — is the next documen
 
 - Design source: [OpenCores — SAP Microprogrammed Processor](https://opencores.org/projects/sap_microprogrammed_processor)
 - Previous flow documentation: [RTL-to-GDSII Flow — MCPU8_1](https://github.com/Jaydeep8/RTL2GDSII-Flow-Cadence)
-- Cadence Genus RTL Compiler User Guide v12.10
-- Weste & Harris — *CMOS VLSI Design: A Circuits and Systems Perspective*, 4th Edition
+- Cadence Encounter RTL Compiler User Guide v12.10
 
 ---
 
-*L.D. College of Engineering, Ahmedabad (GTU) — B.E. Electronics and Communication, 2026*
