@@ -25,18 +25,7 @@ This is that documentation.
 
 MCPU8_1 is an 8-bit microprogrammed CPU sourced from OpenCores. It executes LDA, ADD, SUB, and OUT instructions through a microprogrammed control unit. The architecture that matters for timing analysis:
 
-```
-PRESET_COUNT (UUT6)          ← micro-program counter
-      │
-      ▼
-CONTROL_ROM (UUT7)           ← generates 17-bit control word
-      │
-      ▼ (control signals fan out to everything)
-ACC_8 (UUT9) ◄──── ALU_8 (UUT12) ◄──── B_REG_8 (UUT10)
-      │                  ▲
-      └──────────────────┘
-      (accumulator feeds back into ALU)
-```
+
 
 Two paths will matter throughout this analysis:
 - **Counter → Control ROM → ALU** (the control distribution path)
