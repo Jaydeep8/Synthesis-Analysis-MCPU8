@@ -91,13 +91,13 @@ The gate `g493/NOR2X1` was driving **12 other gates simultaneously** with a tota
 WITHOUT BUFFERING:
                      ┌─► gate 1
                      ├─► gate 2
-g493 / NOR2X1 ───────├─► gate 3   (one tap filling 12 buckets)
-   load = 4.0fF      ├─► ...      (each bucket fills very slowly)
+g493 / NOR2X1 ───────├─► gate 3   (g493 cell has to drive 12 other cells and load increases)
+   load = 4.0fF      ├─► ...      (Delay also increases)
    delay = 189ps     └─► gate 12
 
 WITH BUFFERING:
-                     ┌─► BUF ──┬─► gate 1-6   (two taps)
-g493 / NOR2X1 ───────┤         └─► gate 4-6   (each fills faster)
+                     ┌─► BUF ──┬─► gate 1-6   (Now by inserting buffers after g493 the load reduces )
+g493 / NOR2X1 ───────┤         └─► gate 4-6   (And now load is divided by buffers and delay by g493 is also reduced )
    load ≈ 0.7fF      └─► BUF ──┬─► gate 7-9
    delay ≈ 60ps                 └─► gate 10-12
 
@@ -108,7 +108,7 @@ The tool had not yet inserted buffers here — at 352ps of slack it did not need
 
 ---
 
-#### 1.6ns → 1.5ns: Living dangerously
+#### 1.6ns → 1.5ns: 
 
 Slack collapsed to 10ps, then 8ps. The flip-flop types started changing:
 
@@ -259,24 +259,6 @@ The synthesizer is solving an optimization problem under constraints. When you t
 Each of these is a deliberate decision with a tradeoff. The tool is balancing delay against area against power at every node simultaneously. Understanding what it decided — and why — is what lets you guide it when it cannot close timing on its own.
 
 ---
-
-### Concept 4: Why I could not fix the violation with a multicycle path constraint
-
-When I saw the -46ps violation, the obvious question was: can I apply a multicycle path (MCP) exception to give this path two cycles?
-
-I read the RTL and the control ROM microcode to check. The violation path is the accumulator feedback loop. The relevant microinstruction is `CR[10]`:
-
-```verilog
-CR[10] <= 17'b00111000010010011; // EU and LA activated simultaneously
-```
-
-`EU` (enable ALU output to bus) and `LA` (load accumulator) are both active in the **same microinstruction step**. This means the ALU result must be captured by the accumulator in a single clock cycle. There is no second cycle available — `CR[11]` performs a completely different operation.
-
-Applying a multicycle constraint here would make timing appear to close in the tool, but the accumulator would capture the wrong data. The CPU would compute incorrect arithmetic results. The bug would only appear in silicon, not in simulation.
-
-**This is one of the most dangerous mistakes in physical design.** The constraint tells the tool a lie about the architecture, the tool believes it, timing closes on paper, and the chip is fabricated with a functional bug that cannot be fixed in software.
-
-The correct fix is adding a pipeline register after the ALU output, which breaks the path physically into two stages. This requires a microarchitectural change — modifying both the Verilog and the control ROM microcode — not a constraint file change.
 
 ---
 
