@@ -39,16 +39,16 @@ Two paths will matter throughout this analysis:
 
 | Constraint | Frequency | WNS | Status | Cells | Area | Power (µW) |
 |-----------|-----------|-----|--------|-------|------|------------|
-| 10ns | 100 MHz | +7999ps | ✅ PASS | 281 | 697 | 24.25 |
-| 5ns | 200 MHz | +3008ps | ✅ PASS | 280 | 698 | 48.99 |
-| 2ns | 500 MHz | +352ps | ✅ PASS | 315 | 742 | 117.19 |
-| 1.6ns | 625 MHz | +10ps | ⚠️ TIGHT | 352 | 794 | 154.11 |
-| 1.5ns | 667 MHz | +8ps | ⚠️ TIGHT | 354 | 806 | 159.01 |
-| 1.4ns | 714 MHz | +2ps | ⚠️ TIGHT | 362 | 816 | 176.58 |
-| 1.3ns | 769 MHz | +1ps | ⚠️ TIGHT | 371 | 834 | 187.45 |
-| 1.2ns | 833 MHz | +3ps | ⚠️ TIGHT | 400 | 869 | 209.10 |
-| 1.1ns (medium) | 909 MHz | **-46ps** | ❌ FAIL | 426 | 912 | 237.82 |
-| 1.1ns (high) | 909 MHz | **0ps** | ✅ PASS | 415 | 876 | 248.65 |
+| 10ns | 100 MHz | +7999ps |  PASS | 281 | 697 | 24.25 |
+| 5ns | 200 MHz | +3008ps |  PASS | 280 | 698 | 48.99 |
+| 2ns | 500 MHz | +352ps |  PASS | 315 | 742 | 117.19 |
+| 1.6ns | 625 MHz | +10ps |  TIGHT | 352 | 794 | 154.11 |
+| 1.5ns | 667 MHz | +8ps |  TIGHT | 354 | 806 | 159.01 |
+| 1.4ns | 714 MHz | +2ps |  TIGHT | 362 | 816 | 176.58 |
+| 1.3ns | 769 MHz | +1ps |  TIGHT | 371 | 834 | 187.45 |
+| 1.2ns | 833 MHz | +3ps |  TIGHT | 400 | 869 | 209.10 |
+| 1.1ns (medium) | 909 MHz | **-46ps** |  FAIL | 426 | 912 | 237.82 |
+| 1.1ns (high) | 909 MHz | **0ps** |  PASS | 415 | 876 | 248.65 |
 
 **Maximum frequency with robust margin: 769 MHz (1.3ns)**  
 **Absolute frequency limit: 909 MHz (1.1ns) at 0ps slack — no manufacturing margin**
