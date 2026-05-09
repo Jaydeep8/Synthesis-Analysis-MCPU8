@@ -256,19 +256,13 @@ The gate `g493/NOR2X1` drove 12 other gates with a total load of 4.0fF and a del
 
 Why is high fanout so damaging?
 
-```
+
 WHAT IS HAPPENING ELECTRICALLY:
 
-g493 output ──┬──► gate 1  (capacitance: 0.33fF)
-              ├──► gate 2  (capacitance: 0.33fF)
-              ├──► gate 3  (capacitance: 0.33fF)
-              ├──► gate 4  (capacitance: 0.33fF)
-              ├──► ...
-              └──► gate 12 (capacitance: 0.33fF)
-                            Total load: 4.0fF
+<img width="1440" height="680" alt="image" src="https://github.com/user-attachments/assets/8f17a2fc-ce14-4fdd-9fb9-a507337326a0" />
 
-g493 must charge ALL 4.0fF before its output reaches
-a valid logic level. It has limited drive current.
+```
+g493 must charge ALL 12 cells before its output reaches a valid logic level. It has limited drive current.
 The more load, the longer it takes. Result: 189ps delay.
 
 ANALOGY: One small water tap filling 12 buckets simultaneously.
@@ -277,17 +271,9 @@ Each bucket fills very slowly because the pressure is split 12 ways.
 
 The fix is **buffer insertion** adding intermediate driver cells to share the load:
 
-```
-BEFORE BUFFERING:                    AFTER BUFFERING:
-                                      
-g493 ──────────────────────          g493 ──► BUF ──┬──► gates 1-6
-drives all 12 gates directly                         │
-load = 4.0fF                                └──► BUF ──┬──► gates 7-12
-delay = 189ps                                           
-                                     g493 load drops: 4.0fF → ~0.7fF
-                                     g493 delay drops: 189ps → ~60ps
-                                     Net saving: ~130ps on one gate
-```
+
+<img width="1440" height="800" alt="image" src="https://github.com/user-attachments/assets/5af08f78-275d-4040-9ae8-d6bb70524a57" />
+
 
 At 352ps of slack the tool did not need to insert buffers yet. But now I knew exactly where the problem was and what the fix would look like when timing got tighter.
 
